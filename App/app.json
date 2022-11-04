@@ -1,0 +1,54 @@
+{
+  "id": "16c50ff7-022a-4d35-b21d-c184d4443b00",
+  "name": "Directions EMEA 2022: Data Exchange Deepdive",
+  "publisher": "Tomas Kapitan, Kamil Sacek",
+  "brief": "Example for Directions EMEA 2022",
+  "description": "Example for Directions EMEA 2022",
+  "version": "1.0.0.0",
+  "privacyStatement": "https://www.kepty.cz",
+  "EULA": "https://www.kepty.cz",
+  "help": "https://www.kepty.cz",
+  "contextSensitiveHelpUrl": "https://www.kepty.cz",
+  "url": "https://www.kepty.cz",
+  "logo": "./res/Logo.png",
+  "dependencies": [],
+  "internalsVisibleTo": [
+    {
+      "id": "0e9b09f3-60c5-449b-945a-9543890d54fa",
+      "name": "Directions EMEA 2022: Data Exchange Deepdive - TESTs",
+      "publisher": "Tomas Kapitan, Kamil Sacek"
+    }
+  ],
+  "screenshots": [],
+  "platform": "21.0.0.0",
+  "application": "21.0.0.0",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 89999
+    }
+  ],
+  "target": "Cloud",
+  "features": [
+    "TranslationFile",
+    "NoImplicitWith"
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": false,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "suppressWarnings": [
+    "AA0232",
+    "AS0081",
+    "AS0084",
+    "AS0092",
+    "PTE0012"
+  ],
+  "runtime": "10.0",
+  "preprocessorSymbols": [
+    "CLEAN19",
+    "CLEAN20",
+    "CLEAN21"
+  ]
+}

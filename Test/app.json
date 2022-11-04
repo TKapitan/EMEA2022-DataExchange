@@ -1,0 +1,74 @@
+{
+  "id": "0e9b09f3-60c5-449b-945a-9543890d54fa",
+  "name": "Directions EMEA 2022: DED - TESTs",
+  "publisher": "Tomas Kapitan, Kamil Sacek",
+  "brief": "Tests for example for Directions EMEA 2022",
+  "description": "Tests for example for Directions EMEA 2022",
+  "version": "1.0.0.0",
+  "privacyStatement": "https://www.kepty.cz",
+  "EULA": "https://www.kepty.cz",
+  "help": "https://www.kepty.cz",
+  "contextSensitiveHelpUrl": "https://www.kepty.cz",
+  "url": "https://www.kepty.cz",
+  "logo": "./res/Logo.png",
+  "dependencies": [
+    {
+      "id": "16c50ff7-022a-4d35-b21d-c184d4443b00",
+      "name": "Directions EMEA 2022: Data Exchange Deepdive",
+      "publisher": "Tomas Kapitan, Kamil Sacek",
+      "version": "1.0.0.0"
+    },
+    {
+      "id": "dd0be2ea-f733-4d65-bb34-a28f4624fb14",
+      "publisher": "Microsoft",
+      "name": "Library Assert",
+      "version": "20.0.0.0"
+    },
+    {
+      "id": "e7320ebb-08b3-4406-b1ec-b4927d3e280b",
+      "publisher": "Microsoft",
+      "name": "Any",
+      "version": "20.0.0.0"
+    },
+    {
+      "id": "9856ae4f-d1a7-46ef-89bb-6ef056398228",
+      "publisher": "Microsoft",
+      "name": "System Application Test Library",
+      "version": "20.0.0.0"
+    },
+    {
+      "id": "5d86850b-0d76-4eca-bd7b-951ad998e997",
+      "publisher": "Microsoft",
+      "name": "Tests-TestLibraries",
+      "version": "20.0.0.0"
+    },
+    {
+      "id": "23de40a6-dfe8-4f80-80db-d70f83ce8caf",
+      "publisher": "Microsoft",
+      "name": "Test Runner",
+      "version": "20.0.0.0"
+    }
+  ],
+  "screenshots": [],
+  "platform": "21.0.0.0",
+  "application": "21.0.0.0",
+  "idRanges": [
+    {
+      "from": 90000,
+      "to": 99000
+    }
+  ],
+  "target": "Cloud",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "suppressWarnings": [
+    "AS0015",
+    "AS0084",
+    "AS0092",
+    "AA0210"
+  ],
+  "runtime": "10.0"
+}
