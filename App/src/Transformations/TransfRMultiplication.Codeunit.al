@@ -4,16 +4,16 @@ codeunit 50100 "EMEA Transf.R-Multiplication"
 
     var
         MultipleDescriptionTxt: Label 'Multiple a number.';
-        MultipleTok: Label 'MULTIPLE', Locked = true;
+        MultiplicationTok: Label 'MULTIPLICATION', Locked = true;
 
     [EventSubscriber(ObjectType::Table, Database::"Transformation Rule", 'OnCreateTransformationRules', '', false, false)]
     local procedure OnCreateTransformationRulesTransformationRule()
     var
         TransformationRule: Record "Transformation Rule";
     begin
-        if TransformationRule.Get(MultipleTok) then
+        if TransformationRule.Get(MultiplicationTok) then
             exit;
-        TransformationRule.CreateRule(MultipleTok, MultipleDescriptionTxt, TransformationRule."Transformation Type"::"EMEA Multiplication".AsInteger(), 0, 0, '', '');
+        TransformationRule.CreateRule(MultiplicationTok, MultipleDescriptionTxt, TransformationRule."Transformation Type"::"EMEA Multiplication".AsInteger(), 0, 0, '', '');
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Transformation Rule", 'OnTransformation', '', false, false)]
@@ -35,7 +35,7 @@ codeunit 50100 "EMEA Transf.R-Multiplication"
         TempInteger: Integer;
         TempDecimal: Decimal;
     begin
-        TransformationRule.Get(MultipleTok);
+        TransformationRule.Get(MultiplicationTok);
         if Evaluate(TempInteger, InputText) then
             OutputText := Format(TempInteger * TransformationRule."EMEA Multiplicator");
         Evaluate(TempDecimal, InputText);

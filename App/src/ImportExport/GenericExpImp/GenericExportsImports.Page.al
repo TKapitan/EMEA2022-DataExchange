@@ -135,6 +135,23 @@ page 50100 "EMEA Generic Exports/Imports"
                 end;
             }
         }
+        area(Creation)
+        {
+            action("Init Default")
+            {
+                Caption = 'Initialize Default Export/Imports';
+                ToolTip = 'Allows to initialize default export and imports as are configured within all installed extensions.';
+                Image = NewLotProperties;
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    EMEAInstallMgt: Codeunit "EMEA Install Mgt.";
+                begin
+                    EMEAInstallMgt.InitDataExchangeForCustomerExport();
+                end;
+            }
+        }
     }
 
     local procedure FormatSourceTableFilters(): Text;
