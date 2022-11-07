@@ -125,18 +125,11 @@ codeunit 50106 "EMEA Install Mgt."
     var
         DataExchangeUsage: Record "EMEA Data Exchange Usage";
         DataExchUsageVersion: Record "EMEA Data Exch. Usage Version";
-        NewVersion: Integer;
     begin
         CreateDataExchangeUsageIfNotExists(DataExchangeUsage);
-
-        NewVersion := 1;
-        DataExchUsageVersion.SetRange("Usage Code", DataExchangeUsage.Code);
-        if DataExchUsageVersion.FindLast() then
-            NewVersion += DataExchUsageVersion."No.";
-
         DataExchUsageVersion.Init();
         DataExchUsageVersion.Validate("Usage Code", DataExchangeUsage.Code);
-        DataExchUsageVersion.Validate("No.", NewVersion);
+        DataExchUsageVersion.Validate("No.", 0);
         DataExchUsageVersion.Validate("Data Exch. Def. Code", DataExchDef.Code);
         DataExchUsageVersion.Insert();
     end;

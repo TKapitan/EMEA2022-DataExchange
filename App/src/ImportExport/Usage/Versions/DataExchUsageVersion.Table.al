@@ -35,6 +35,20 @@ table 50101 "EMEA Data Exch. Usage Version"
         }
     }
 
+    trigger OnInsert()
+    var
+        DataExchUsageVersion: Record "EMEA Data Exch. Usage Version";
+        NewVersionNo: Integer;
+    begin
+        if Rec."No." = 0 then begin
+            NewVersionNo := 1;
+            DataExchUsageVersion.SetRange("Usage Code", Rec."Usage Code");
+            if DataExchUsageVersion.FindLast() then
+                NewVersionNo += DataExchUsageVersion."No.";
+            Rec.Validate("No.", NewVersionNo);
+        end;
+    end;
+
     trigger OnDelete()
     var
         GenericExportImport: Record "EMEA Generic Export/Import";
