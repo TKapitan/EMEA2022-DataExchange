@@ -3,7 +3,7 @@ codeunit 50100 "EMEA Transf.R-Multiplication"
     SingleInstance = true;
 
     var
-        MultipleDescriptionTxt: Label 'Multiple a number.';
+        MultiplyDescriptionTxt: Label 'Multiply a number.';
         MultiplicationTok: Label 'MULTIPLICATION', Locked = true;
 
     [EventSubscriber(ObjectType::Table, Database::"Transformation Rule", 'OnCreateTransformationRules', '', false, false)]
@@ -13,7 +13,7 @@ codeunit 50100 "EMEA Transf.R-Multiplication"
     begin
         if TransformationRule.Get(MultiplicationTok) then
             exit;
-        TransformationRule.CreateRule(MultiplicationTok, MultipleDescriptionTxt, TransformationRule."Transformation Type"::"EMEA Multiplication".AsInteger(), 0, 0, '', '');
+        TransformationRule.CreateRule(MultiplicationTok, MultiplyDescriptionTxt, TransformationRule."Transformation Type"::"EMEA Multiplication".AsInteger(), 0, 0, '', '');
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Transformation Rule", 'OnTransformation', '', false, false)]
@@ -24,20 +24,20 @@ codeunit 50100 "EMEA Transf.R-Multiplication"
         TransformationRule.Get(TransformationCode);
         if TransformationRule."EMEA Cust. Transf. Rule Type" <> TransformationRule."EMEA Cust. Transf. Rule Type"::"EMEA Multiplication" then
             exit;
-        if not TryMultiple(InputText, OutputText) then
+        if not TryMultiple(TransformationRule, InputText, OutputText) then
             OutputText := ''
     end;
 
     [TryFunction]
-    local procedure TryMultiple(InputText: Text; var OutputText: Text)
+    local procedure TryMultiple(TransformationRule: Record "Transformation Rule"; InputText: Text; var OutputText: Text)
     var
-        TransformationRule: Record "Transformation Rule";
         TempInteger: Integer;
         TempDecimal: Decimal;
     begin
-        TransformationRule.Get(MultiplicationTok);
-        if Evaluate(TempInteger, InputText) then
+        if Evaluate(TempInteger, InputText) then begin
             OutputText := Format(TempInteger * TransformationRule."EMEA Multiplicator");
+            exit;
+        end;
         Evaluate(TempDecimal, InputText);
         OutputText := Format(TempDecimal * TransformationRule."EMEA Multiplicator");
     end;
