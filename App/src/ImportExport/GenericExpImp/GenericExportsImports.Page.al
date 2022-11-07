@@ -148,7 +148,7 @@ page 50100 "EMEA Generic Exports/Imports"
                 var
                     EMEAInstallMgt: Codeunit "EMEA Install Mgt.";
                 begin
-                    EMEAInstallMgt.InitDataExchangeForCustomerExport();
+                    EMEAInstallMgt.InitGenericExportForCustomer();
                 end;
             }
         }

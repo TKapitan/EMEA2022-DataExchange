@@ -35,4 +35,12 @@ table 50101 "EMEA Data Exch. Usage Version"
         }
     }
 
+    trigger OnDelete()
+    var
+        GenericExportImport: Record "EMEA Generic Export/Import";
+    begin
+        GenericExportImport.SetRange("Data Exchange Usage Code", Rec."Usage Code");
+        GenericExportImport.SetRange("Used Version No.", Rec."No.");
+        GenericExportImport.DeleteAll(true);
+    end;
 }

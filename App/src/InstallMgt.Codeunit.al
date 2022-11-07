@@ -4,10 +4,13 @@ codeunit 50106 "EMEA Install Mgt."
 
     trigger OnInstallAppPerCompany()
     begin
-        InitDataExchangeForCustomerExport();
+        InitGenericExportForCustomer();
     end;
 
-    procedure InitDataExchangeForCustomerExport()
+    var
+        GenericExportForCustomerTok: Label 'CUST-EXP01';
+
+    procedure InitGenericExportForCustomer()
     var
         DataExchDef: Record "Data Exch. Def";
         DataExchLineDef: Record "Data Exch. Line Def";
@@ -19,23 +22,35 @@ codeunit 50106 "EMEA Install Mgt."
         InsertDataExchColumnDef(DataExchLineDef);
         InsertDataExchMapping(DataExchLineDef, DataExchMapping);
         InsertDataExchFieldMapping(DataExchMapping);
+
+        CreateDataExchangeUsageAndVersion(DataExchDef);
     end;
 
     local procedure InsertDataExchDef(var DataExchDef: Record "Data Exch. Def"): Boolean
     var
         ConfirmManagement: Codeunit "Confirm Management";
-        CustExportDataExchDefCodeTok: Label 'CUST-EXP01';
-        DataExchangeDefinitionExistsOverwriteQst: Label '%1 %2 already exists. Do you want to overwrite current definition?', Comment = '%1 - Data Exchange Definition table caption, %2 - Data Exchange Definition Code';
+        DataExchDefCode: Code[20];
+        Counter: Integer;
+        DataExchangeDefinitionExistsOverwriteQst: Label '%1 %2 already exists. Do you want to add new version of data exchange definition?', Comment = '%1 - Data Exchange Definition table caption, %2 - Data Exchange Definition Code';
+        NewVersionCanNotBeCreatedErr: Label 'New version for %1 %2 can not be created.', Comment = '%1 - Data Exchange Definition table caption, %2 - Data Exchange Definition Code';
     begin
-        if DataExchDef.Get(CustExportDataExchDefCodeTok) then begin
+        DataExchDefCode := GenericExportForCustomerTok;
+        if DataExchDef.Get(DataExchDefCode) then begin
             if not ConfirmManagement.GetResponse(StrSubstNo(DataExchangeDefinitionExistsOverwriteQst, DataExchDef.TableCaption(), DataExchDef.Code), true) then
                 exit(false);
-            DataExchDef.Delete(true);
+
+            for Counter := 1 to 100 do begin
+                DataExchDefCode := IncStr(DataExchDefCode);
+                if not DataExchDef.Get(DataExchDefCode) then
+                    break;
+            end;
+            if DataExchDef.Code = '' then
+                Error(NewVersionCanNotBeCreatedErr);
         end;
 
         DataExchDef.Init();
-        DataExchDef.Validate(Code, CustExportDataExchDefCodeTok);
-        DataExchDef.Validate(Name, CustExportDataExchDefCodeTok);
+        DataExchDef.Validate(Code, DataExchDefCode);
+        DataExchDef.Validate(Name, DataExchDefCode);
         DataExchDef.Validate(Type, "Data Exchange Definition Type"::"Generic Export");
         DataExchDef.Validate("File Type", DataExchDef."File Type"::"Variable Text");
 
@@ -104,5 +119,34 @@ codeunit 50106 "EMEA Install Mgt."
         DataExchFieldMapping.Modify(true);
         DataExchFieldMapping.InsertRec(DataExchMapping."Data Exch. Def Code", DataExchMapping."Data Exch. Line Def Code", DataExchMapping."Table ID", 5,
                 Customer.FieldNo(Address), false, 1);
+    end;
+
+    local procedure CreateDataExchangeUsageAndVersion(var DataExchDef: Record "Data Exch. Def")
+    var
+        DataExchangeUsage: Record "EMEA Data Exchange Usage";
+        DataExchUsageVersion: Record "EMEA Data Exch. Usage Version";
+        NewVersion: Integer;
+    begin
+        CreateDataExchangeUsageIfNotExists(DataExchangeUsage);
+
+        NewVersion := 1;
+        DataExchUsageVersion.SetRange("Usage Code", DataExchangeUsage.Code);
+        if DataExchUsageVersion.FindLast() then
+            NewVersion += DataExchUsageVersion."No.";
+
+        DataExchUsageVersion.Init();
+        DataExchUsageVersion.Validate("Usage Code", DataExchangeUsage.Code);
+        DataExchUsageVersion.Validate("No.", NewVersion);
+        DataExchUsageVersion.Validate("Data Exch. Def. Code", DataExchDef.Code);
+        DataExchUsageVersion.Insert();
+    end;
+
+    local procedure CreateDataExchangeUsageIfNotExists(var DataExchangeUsage: Record "EMEA Data Exchange Usage")
+    begin
+        if DataExchangeUsage.Get(GenericExportForCustomerTok) then
+            exit;
+        DataExchangeUsage.Init();
+        DataExchangeUsage.Validate(Code, GenericExportForCustomerTok);
+        DataExchangeUsage.Insert(true);
     end;
 }

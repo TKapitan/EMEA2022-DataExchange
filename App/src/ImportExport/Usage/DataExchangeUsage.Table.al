@@ -50,6 +50,18 @@ table 50100 "EMEA Data Exchange Usage"
         }
     }
 
+    trigger OnDelete()
+    var
+        GenericExportImport: Record "EMEA Generic Export/Import";
+        DataExchUsageVersion: Record "EMEA Data Exch. Usage Version";
+    begin
+        DataExchUsageVersion.SetRange("Usage Code", Rec.Code);
+        DataExchUsageVersion.DeleteAll(true);
+
+        GenericExportImport.SetRange("Data Exchange Usage Code", Rec.Code);
+        GenericExportImport.DeleteAll(true);
+    end;
+
     procedure RunExport(SourceGenericExportImport: Record "EMEA Generic Export/Import"; var SourceVariant: Variant)
     var
         DataExchMapping: Record "Data Exch. Mapping";
