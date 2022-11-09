@@ -5,6 +5,6 @@ tableextension 50102 "EMEA Data Exch. Def." extends "Data Exch. Def"
         DataExchUsageVersion: Record "EMEA Data Exch. Usage Version";
     begin
         DataExchUsageVersion.SetRange("Data Exch. Def. Code", Rec."Code");
-        DataExchUsageVersion.DeleteAll();
+        DataExchUsageVersion.DeleteAll(true);
     end;
 }

@@ -104,7 +104,6 @@ codeunit 50106 "EMEA Install Mgt."
         Customer: Record Customer;
         TransformationRule: Record "Transformation Rule";
         DataExchFieldMapping: Record "Data Exch. Field Mapping";
-        MultiplicationTok: Label 'MULTIPLICATION', Locked = true;
     begin
         DataExchFieldMapping.InsertRec(DataExchMapping."Data Exch. Def Code", DataExchMapping."Data Exch. Line Def Code", DataExchMapping."Table ID", 1,
                                         Customer.FieldNo("No."), false, 1);
@@ -113,12 +112,24 @@ codeunit 50106 "EMEA Install Mgt."
         DataExchFieldMapping.InsertRec(DataExchMapping."Data Exch. Def Code", DataExchMapping."Data Exch. Line Def Code", DataExchMapping."Table ID", 3,
                                         Customer.FieldNo(Balance), true, 1);
 
-        // Important or the next line fails because newly added tranformation rules are loaded on init of company + on open page of transformation rules
-        TransformationRule.OnCreateTransformationRules();
-        DataExchFieldMapping.Validate("Transformation Rule", MultiplicationTok);
+        CreateMultiplication10TransfRule(TransformationRule);
+        DataExchFieldMapping.Validate("Transformation Rule", TransformationRule.Code);
         DataExchFieldMapping.Modify(true);
+
         DataExchFieldMapping.InsertRec(DataExchMapping."Data Exch. Def Code", DataExchMapping."Data Exch. Line Def Code", DataExchMapping."Table ID", 5,
                 Customer.FieldNo(Address), false, 1);
+    end;
+
+    local procedure CreateMultiplication10TransfRule(TransformationRule: Record "Transformation Rule")
+    var
+        MultiplyDescriptionTxt: Label 'Multiply a number by 10.';
+        Multiplication10Tok: Label 'MULTIPLICATION-10', Locked = true;
+    begin
+        if TransformationRule.Get(Multiplication10Tok) then
+            exit;
+        TransformationRule.CreateRule(Multiplication10Tok, MultiplyDescriptionTxt, TransformationRule."Transformation Type"::"EMEA Multiplication".AsInteger(), 0, 0, '', '');
+        TransformationRule.Validate("EMEA Multiplicator", 10);
+        TransformationRule.Modify(true);
     end;
 
     local procedure CreateDataExchangeUsageAndVersion(var DataExchDef: Record "Data Exch. Def")

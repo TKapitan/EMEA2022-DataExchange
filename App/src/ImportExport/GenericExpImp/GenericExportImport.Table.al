@@ -1,6 +1,8 @@
 table 50102 "EMEA Generic Export/Import"
 {
     Caption = 'Generic Export/Import';
+    LookupPageId = "EMEA Generic Exports/Imports";
+    DrillDownPageId = "EMEA Generic Exports/Imports";
 
     fields
     {

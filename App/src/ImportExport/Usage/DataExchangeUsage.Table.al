@@ -1,6 +1,8 @@
 table 50100 "EMEA Data Exchange Usage"
 {
     Caption = 'Data Exchange Usage';
+    LookupPageId = "EMEA Data Exchange Usage List";
+    DrillDownPageId = "EMEA Data Exchange Usage List";
 
     fields
     {
@@ -77,11 +79,6 @@ table 50100 "EMEA Data Exchange Usage"
 
         GenericExportLauncher.SetSource(SourceGenericExportImport, SourceVariant);
         GenericExportLauncher.Run(DataExchMapping);
-    end;
-
-    procedure RunImport()
-    begin
-        // TODO runimport
     end;
 
     local procedure LookupVersions()

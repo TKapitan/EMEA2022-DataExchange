@@ -1,6 +1,8 @@
 table 50101 "EMEA Data Exch. Usage Version"
 {
-    DataClassification = ToBeClassified;
+    Caption = 'Data Exchange Usage Version';
+    LookupPageId = "EMEA Data Exch. Usage Versions";
+    DrillDownPageId = "EMEA Data Exch. Usage Versions";
 
     fields
     {

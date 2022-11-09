@@ -1,6 +1,8 @@
 table 50103 "EMEA Exported Record"
 {
     Caption = 'Exported Record';
+    LookupPageId = "EMEA Exported Records";
+    DrillDownPageId = "EMEA Exported Records";
 
     fields
     {
