@@ -69,11 +69,8 @@ table 50100 "EMEA Data Exchange Usage"
         DataExchMapping: Record "Data Exch. Mapping";
         GenericExportLauncher: Codeunit "EMEA Generic Export Launcher";
     begin
-        Rec.CalcFields("Data Exch. Def. Code");
-        Rec.TestField("Data Exch. Def. Code");
         SourceGenericExportImport.TestField("Source Table No.");
-
-        DataExchMapping.SetRange("Data Exch. Def Code", Rec."Data Exch. Def. Code");
+        DataExchMapping.SetRange("Data Exch. Def Code", SourceGenericExportImport.GetUsedDataExchangeDefinitionCode());
         DataExchMapping.SetFilter("Table ID", '0|%1', SourceGenericExportImport."Source Table No.");
         DataExchMapping.FindFirst();
 
