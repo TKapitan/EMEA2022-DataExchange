@@ -26,11 +26,30 @@ pageextension 50101 "EMEA Init Data" extends "Company Information"
         Location: Record Location;
         Counter: Integer;
     begin
+        Customer2.SetFilter("No.", '<>10000&<>20000&<>30000&<>40000&<>50000');
+        Customer2.DeleteAll(true);
+
         Location.FindSet();
         for Counter := Customer.Count() to 250 do begin
             Customer2.Init();
             Customer2.Validate("No.", RandomString(11, false));
             Customer2.Validate(Name, RandomString(15, true));
+            case Random(7) of
+                1:
+                    Customer2.Validate(County, 'NSW');
+                2:
+                    Customer2.Validate(County, 'QLD');
+                3:
+                    Customer2.Validate(County, 'SA');
+                4:
+                    Customer2.Validate(County, 'NT');
+                5:
+                    Customer2.Validate(County, 'WA');
+                6:
+                    Customer2.Validate(County, 'TAS');
+                7:
+                    Customer2.Validate(County, 'VIC');
+            end;
             customer2."Location Code" := Location.Code;
             Customer2.Insert();
 
